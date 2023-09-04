@@ -1,0 +1,1717 @@
+scalar Date
+scalar Number
+
+enum LocationType {
+  SPACESHIP
+  HOUSE
+  CAMPSITE
+  APARTMENT
+  ROOM
+}
+
+enum CoachType {
+  Permanent_Coach
+  Temporary_Coach
+  Ask_Question_Coach
+}
+
+enum AskQuestionLevelType {
+  P1
+  P6S
+  P6Fdn
+}
+
+enum ClassType {
+  Regular_Class
+  Crash_Course_Class
+  Trial_Class
+}
+
+enum ClassLevel {
+  Primary
+  Secondary
+  All
+}
+
+enum ClassMode {
+  Online
+  Offline
+}
+enum LeadStatus {
+  newLead
+  followUp
+  confirmed
+  withdrawn
+}
+
+enum SessionTypes {
+  Automatic
+  Manual
+}
+
+enum NotificationTypes {
+  Notification
+  Announcement
+}
+enum HistoryType {
+  Completed
+  Upcoming
+}
+
+enum AnnouncementUserType {
+  Class_Annoucements
+  Global_Announcement
+}
+
+enum StudentTypes {
+  Regular
+  Crash_Course
+  Trial
+}
+enum userTypes {
+  Coach
+  Student
+}
+
+enum mediaAccessTypes {
+  Coach_Private_Media
+  Common_Media
+}
+enum classRequestTypes {
+  Class_Reschedule_Request
+  Make_Up_session_Request
+  Class_Mode_Change
+}
+
+type User {
+  _id: String
+  name: String
+  # password: String
+  email: String
+}
+
+type Parent {
+  _id: String
+  name: String
+  email: String
+  phone: String
+  address: String
+  image: String
+  children: [Student]
+}
+
+type Student {
+  _id: String!
+  name: String!
+  parentId: Parent!
+  cardDetails: [CreditCardInfo]
+  BankAccountDetails: [BankAccountInfo]
+  image: String
+  classId: [Class]
+  studentType: StudentTypes!
+}
+
+input StudentInput {
+  name: String!
+  studentType: StudentTypes!
+}
+
+type BankAccountInfo {
+  id: String!
+  bankName: String!
+  accountNumber: String!
+  accountHolderName: String!
+}
+
+type CreditCardInfo {
+  id: String!
+  nameOnCard: String!
+  cardNumber: String!
+  expireDate: Date!
+  cvv: Int!
+}
+
+type LoginResponse {
+  token: String!
+  refreshToken: String!
+}
+
+type Announcement {
+  notificationId: Nottification
+  studentId: String
+  createdAt: Date!
+}
+
+# center
+type Center {
+  _id: String
+  status: Boolean
+  centerName: String
+  centerAddress: String
+  centerCode: String
+}
+# Coach
+type Coach {
+  _id: String
+  coachName: String
+  coachType: [CoachType!]
+  emailAddress: String
+  phoneNumber: String
+  askQuestionLevel: [AskQuestionLevelType!]
+  address: String
+  idProof: String
+  profileImg: String
+}
+
+type AdminCoachData {
+  _id: String
+  coachName: String
+  coachType: [CoachType!]
+  emailAddress: String
+  phoneNumber: String
+  askQuestionLevel: [AskQuestionLevelType!]
+  address: String
+  idProof: String
+  profileImg: String
+  sessionCount: Int
+  classCount: Int
+}
+# Class
+type Class {
+  _id: String
+  classCode: String
+  classType: ClassType!
+  classLevel: ClassLevel!
+  mode: String!
+  center: [Center]
+  fromDate: Date!
+  toDate: Date!
+  status: String
+  sessions: [Session]!
+  students: [Student]!
+}
+
+# Session
+
+type Session {
+  _id: String
+  sessionType: SessionTypes!
+  sessionName: String!
+  totalSeats: Int!
+  permanentCoach: Coach!
+  temporaryCoach: Coach!
+  Date: Date!
+  fromTime: Date!
+  toTime: Date!
+  status: String
+  class: [Class]!
+  attendees: [Student]
+  summary: String
+  progressReport: String
+  meeingLink: String
+  start_url: String
+  meeting_id: String
+  meeting_passcode: String
+}
+
+# nottification
+type Nottification {
+  _id: String
+  selectNotificationType: NotificationTypes
+  selectTheUser: String
+  selectClassLevel: String
+  selectClassType: String
+  selectClassCode: String
+  addDescription: String
+  insertLink: String
+  created_at: Date
+  sesions: [String]
+}
+
+type Media {
+  _id: String!
+  classId: String!
+  forMonth: Date!
+  mediaAccess: String!
+  mediaUrl: String!
+  docType: String!
+  mediaType: String
+}
+
+type DistictMedia {
+  _id: String!
+  classId: String!
+  forMonth: Date!
+  mediaAccess: String!
+  mediaUrl: String!
+  docType: String!
+  mediaType: String
+  # coachCode:String
+  classCode: String
+}
+
+type Question {
+  _id: String!
+  question_text: String!
+  classId: String!
+  student_id: String!
+  created_at: Date!
+  comments: [Comments]
+}
+
+type QuestionQuery {
+  _id: String!
+  question_text: String!
+  class_id: Class
+  student_id: Student!
+  created_at: Date!
+  comments: [CommentDetails]
+  unseen_comments_count: Number
+  comments_count: Number
+}
+
+type CommentDetails {
+  _id: String!
+  commentText: String!
+  userType: String!
+  studentId: Student
+  created_at: Date
+  coachId: Coach
+  # coachId:
+}
+
+type Comments {
+  _id: String!
+}
+
+type FeeConfig {
+  _id: String!
+  planTax:Int,
+	setupFee:Int,
+	setupTax:Int,
+	discount:Int,
+  isActive: Boolean!
+}
+
+type ClassQuestionsListQuery {
+  questionCount: Number
+  classId: String!
+  classType: String!
+  classLevel: String!
+  classCode: String!
+}
+
+type SessionFeedback {
+  _id: String!
+  sessionId: Session!
+  studentId: Student!
+  feedback: String!
+}
+
+type Submission {
+  studentId: Student!
+  answerUrl: String!
+}
+
+type Assignment {
+  _id: String!
+  classId: Class!
+  questionUrl: String!
+  docType: String!
+  createdAt: Date
+  submission: [Submission]
+}
+
+type SessionHistory {
+  year: Number!
+  month: Number!
+  sessions: [Session]
+}
+
+type SessionAgrregate {
+  _id: Number!
+  sessions: [Session]
+}
+
+type ClassRequest {
+  _id: String
+  requestType: String
+  class: Class
+  student: Student
+  preseason: String
+  status: String
+  statusReason: String
+  created_at: Date
+  sessions: [Session]
+  isClear: Boolean
+}
+
+type TrackNotification {
+  studentId: Student
+  _id: String
+  statusType: String
+  updated_at: Date
+  create_at: Date
+}
+type NotificationList {
+  _id: String
+  addDescription: String
+  created_at: Date
+}
+
+type AllNotificationList {
+  notifications: [NotificationList]
+  isCleardDate: TrackNotification
+}
+
+type AllParentsPagination {
+  totalEntries: Number
+  data: [Parent]
+}
+type AllClassRequestsPagination {
+  totalEntries: Number
+  data: [ClassRequest]
+}
+# Coach
+type Coachv2 {
+  _id: String
+  coachName: String
+  coachType: [CoachType!]
+  emailAddress: String
+  phoneNumber: String
+  askQuestionLevel: [String!]
+  address: String
+  idProof: String
+  profileImg: String
+  sessionCount: Number
+  classCount: Number
+}
+type getAdminCoachsListPagination {
+  totalEntries: Number
+  data: [Coachv2]
+}
+
+# Class
+type Classv2 {
+  _id: String
+  classCode: String
+  classType: ClassType!
+  classLevel: ClassLevel!
+  mode: String!
+  center: [Center]
+  fromDate: Date!
+  toDate: Date!
+  status: String
+  currentStatus: String
+  sessions: [Session]!
+  students: [Student]!
+}
+
+type getAdminAllClassesPagination {
+  totalEntries: Number
+  data: [Classv2]
+  centers: [Center]
+}
+
+type adminGetParentByIdClasses {
+  _id: String
+  classCode: String
+  level: String
+  mode: String
+  centerName: String
+  centerAddress: String
+  centerId: String
+  fromDate: Date
+  toDate: Date
+  sessionsCount: Number
+  sessionsAttended: Number
+  sessionsMissed: Number
+}
+type adminGetParentByIdParent {
+  _id: String
+  name: String
+  email: String
+  phone: String
+  image: String
+  address: String
+}
+type adminGetParentByIdChildren {
+  _id: String
+  name: String
+  image: String
+  classes: [adminGetParentByIdClasses]
+}
+
+type adminGetParentByIdType {
+  parent: adminGetParentByIdParent
+  children: [adminGetParentByIdChildren]
+}
+
+type adminGetStudent {
+  studentId: ID!
+  studentName: String!
+  parent: adminGetParentStudent
+  # classes: [Class!]!
+  totalClasses: Int!
+  totalSessionsAttended: Int!
+  totalSessionsMissed: Int!
+}
+
+type adminGetParentStudent {
+  parentId: ID!
+  parentName: String!
+  parentEmail: String!
+  parentPhone: String!
+}
+
+type StudentListResponse {
+  data: [adminGetStudent!]!
+  totalEntries: Int!
+}
+
+type adminGetStudentInfoResponse {
+  id: ID
+  name: String
+  image: String
+  studentType: String
+  parentId: ID
+  cardDetails: String
+  BankAccountDetails: String
+  classes: [adminGetStudentInfoClass]
+}
+
+type adminGetStudentInfoClass {
+  _id: ID
+  classCode: String
+  classType: String
+  classLevel: String
+  mode: String
+  fromDate: String
+  toDate: String
+  status: String
+  sessionsCount: Int
+  attended: Int
+  missed: Int
+  center: Center
+}
+
+type adminSessionDetails {
+  sessionType: String!
+  sessionName: String!
+  totalSeats: Int!
+  permanentCoach: Coach!
+  temporaryCoach: Coach!
+  date: String!
+  fromTime: String!
+  toTime: String!
+  class: [Class!]!
+  attendees: [Student!]!
+  summary: String
+  progressReport: String
+  isStudentPresent: Boolean!
+  feedback: String
+  assignements: [Assignment]
+  # status: String
+}
+
+type adminSessionDetailsV2 {
+  _id: ID
+  sessionType: String
+  sessionName: String
+  totalSeats: Int
+  permanentCoach: Coach
+  temporaryCoach: Coach
+  Date: String
+  fromTime: String
+  toTime: String
+  class: [Class!]
+  attendees: [Student!]
+  summary: String
+  progressReport: String
+  # isStudentPresent: Boolean!
+  feedback: String
+  assignements: String
+  status: String
+}
+
+type Studentv2 {
+  _id: String!
+  name: String!
+  parentId: Parent
+  cardDetails: [CreditCardInfo]
+  BankAccountDetails: [BankAccountInfo]
+  image: String
+  classId: [Class]
+  studentType: StudentTypes!
+  isPresent: Boolean!
+  feedback: String
+  assignments: [Assignment]
+}
+
+type StudentsWithAttendanceResult {
+  students: [Studentv2]
+  totalEntries: Int
+}
+
+type adminQuestionsList {
+  studentId: ID!
+  name: String!
+  classCode: String
+  latestQuestionDate: Date
+  unansweredCount: Int!
+}
+type adminSessionDetailsType {
+  data: [adminSessionDetails!]!
+  totalEntries: Int!
+}
+type adminSessionDetailsTypeV2 {
+  data: [adminSessionDetailsV2!]!
+  totalEntries: Int!
+}
+type adminQuestionsListType {
+  data: [adminQuestionsList!]!
+  totalEntries: Int!
+}
+type adminQuestionResult {
+  data: [QuestionQuery]
+  totalentries: Int!
+}
+type rolesWithPermissions {
+  _id: String
+  roleName: String
+  permissions: [String]
+}
+type getClassListByCenterIdResult {
+  data: [Class]
+  totalEntries: Int!
+}
+
+type Staff {
+  _id: ID!
+  name: String!
+  email: String!
+  phoneNumber: String
+  address: String
+  idProof: String
+  status: Boolean!
+  staffCenter: [Center]
+  staffRole: [rolesWithPermissions]
+}
+
+type DistictMediaPagination {
+  data: [DistictMedia]
+  total: Int
+}
+
+type SessionPagination {
+  data: [Session]
+  total: Int
+}
+
+type CenterV2 {
+  _id: ID!
+  centerName: String!
+  status: Boolean
+  centerAddress: String!
+  centerCode: String!
+  class: [Class!]
+  totalClasses: Int!
+  totalStaffs: Int!
+}
+
+type getCenterListPaginationResult {
+  data: [CenterV2]
+  totalentries: Int!
+}
+type getNotificationsPaginationType {
+  data: [Nottification]
+  totalentries: Int!
+}
+type MediaPagination {
+  data: [Media]
+  total: Int
+}
+
+type ClassesPagination {
+  data: [Class]
+  total: Int
+}
+
+type AdminPagination {
+  total: Int
+  data: [AdminCoachData]
+}
+
+type Query {
+  getAllStudents: [Student]
+  getStudent(_id: String!): Student
+  getAllParents: [Parent]
+
+  getParent(_id: String!): Parent
+  getAllCoachs: [Coach]
+
+  adminGetAllCoach(
+    offset: Int!
+    limit: Int!
+    sortBy: String
+    order: String
+    search: String
+  ): AdminPagination
+
+  getAllUsers: [User]
+  getCoach(_id: String!): Coach
+  getUser(_id: String!): User
+
+  getAllCenter: [Center]
+  getCenter(_id: String!): Center
+
+  getAllClass: [Class]
+  getClass(_id: String!): Class
+
+
+  adminGetAllCoachClass(
+    coachId: String!
+    offset: Int!
+    limit: Int!
+    search: String
+    sortBy: String
+    order: String
+  ): ClassesPagination
+
+  adminGetAllCoachSession(
+    coachId: String!
+    offset: Int!
+    limit: Int!
+    search: String
+    sortBy: String
+    order: String
+  ): SessionPagination
+
+  getAllSession: [Session]
+  getSession(_id: String!): Session
+
+  getAllNotification: [Nottification]
+  getNotification(_id: String!): Nottification
+  getUserAnnouncements(studentId: String!): [Announcement]
+  getUpcomingSessions(studentId: String!): [Session]
+  getCoachUpcomingSessions(classId: String): [SessionAgrregate]
+  getCoachClassHistory(classId: String!): [SessionAgrregate]
+  getCoachSessionCalender(fromDate: Date!, toDate: Date!): [Session]
+  # media
+  getClassMedia(classId: String!): [Media]
+
+  adminGetAllMedia(
+    mediaAccess: mediaAccessTypes!
+    offset: Int!
+    limit: Int!
+    sortBy: String
+    order: String
+    classCode: String
+    accessMonth: Int
+    search: String
+  ): MediaPagination
+
+  adminGetDistinctMedia(
+    mediaAccess: mediaAccessTypes!
+    offset: Int!
+    limit: Int!
+    sortBy: String
+    order: String
+    classCode: String
+    accessMonth: Int
+    search: String
+  ): DistictMediaPagination
+
+  # Question
+  getQuestions(classId: String!): [QuestionQuery]
+  getQuestionByID(_id: String!): QuestionQuery
+  classQuestionsList(student_id: String!): [ClassQuestionsListQuery]
+  getQuestionsByClassID(classId: String!, studnetId: String!): [QuestionQuery]
+
+  # SessionFeedback
+  getAllSessionFeedBack(sessionId: String, studentId: String): [SessionFeedback]
+  getSessionFeedBack(_id: String!): SessionFeedback
+
+  getClassListByStudentId(studentId: String!): [Class]
+  getClassHistory(
+    studentId: String!
+    classId: String!
+    historyType: HistoryType!
+  ): [SessionHistory]
+  getClassRequestListByStudentId(studentId: String!): [ClassRequest]
+  getClassRequestList: [ClassRequest]
+  getSessionsListByClassid(classId: String): [Session]
+
+  # assignments
+  getClassAssignment(classId: String!): [Assignment]
+  getClassAssignmentBySession(sessionId: String!): [Assignment]
+
+  # Notifications
+  getNotificationsByStudentId(
+    studentId: ID
+    notificationType: String!
+  ): AllNotificationList
+
+  deleteAllNotifications: Boolean
+
+  getNotificationsByCoachId(
+    coachId: ID
+    notificationType: String!
+  ): AllNotificationList
+
+  getAllQuestionsForCoach: [QuestionQuery]
+
+  # admin quires
+  getAdminAllParents(
+    page: Number!
+    perPage: Number!
+    search: String
+  ): AllParentsPagination
+  getAdminAllClassRequests(
+    page: Number!
+    perPage: Number!
+    search: String
+    fromDate: Date
+    toDate: Date
+    classCode: [String]
+    requestType: String
+    status: String
+  ): AllClassRequestsPagination
+
+  getAdminAllClasses(
+    page: Number!
+    perPage: Number!
+    search: String
+    classLevel: [String]
+    modes: [String]
+    statuses: [String]
+    status: String
+    type: String
+  ): getAdminAllClassesPagination
+  adminGetParentById(id: String): adminGetParentByIdType
+  adminStudentList(
+    page: Number
+    perPage: Number
+    search: String
+  ): StudentListResponse!
+  adminGetStudentInfo(id: String): adminGetStudentInfoResponse
+  adminGetSessionsList(
+    page: Number!
+    perPage: Number!
+    search: String
+    studentId: String
+    classId: String
+  ): adminSessionDetailsType
+  adminGetSessionsListByClassId(
+    page: Number!
+    perPage: Number!
+    search: String
+    classId: String!
+    tempCoach: String
+    perCoach: String
+    status: String
+  ): adminSessionDetailsTypeV2
+  adminQuestionsList(
+    page: Number!
+    perPage: Number!
+    search: String
+  ): adminQuestionsListType
+  getQuestionsWithCoachData(
+    page: Number!
+    perPage: Number!
+    search: String
+    studentId: String
+    timePeriod: Date
+  ): adminQuestionResult
+  getStudentsWithAttendance(
+    page: Number!
+    perPage: Number!
+    classId: String
+    sessionId: String
+    search: String
+  ): StudentsWithAttendanceResult
+  getAllRolesWithPermissions: [rolesWithPermissions]
+  getStaffList(
+    page: Number!
+    perPage: Number!
+    search: String
+    centerId: String
+  ): StaffListType
+  getClassListByCenterId(
+    page: Number!
+    perPage: Number!
+    centerId: String
+    search: String
+  ): getClassListByCenterIdResult
+  getCenterListPagination(
+    page: Number!
+    perPage: Number!
+    search: String
+    id: String
+  ): getCenterListPaginationResult
+  getNotificationsPagination(
+    search: String
+    userType: String
+    classCode: String
+    notificationType: String
+    page: Number!
+    perPage: Number!
+  ): getNotificationsPaginationType
+  getAdminCoachsList(
+    page: Number!
+    perPage: Number!
+    search: String
+  ): getAdminCoachsListPagination
+  getClassesByLevelAndType(classLevel: String, classType: String): [Class]
+  getSessionsByClassLevel(classLevel: String): [Session]
+  # FOrm Questions
+  adminFormQuestions(
+    page: Number!
+    perPage: Number!
+    search: String
+  ): adminIFormQuestions
+  getFormQuestions: [IFormQuestions]
+  getFormQuestionById(id: String): IFormQuestions
+  #
+  adminWebsiteSchudle(
+    page: Number!
+    perPage: Number!
+    search: String
+    classLevel: String
+    classCode: String
+    className: String
+  ): adminIWebsiteSchudle
+  getWebsiteSchudle: [IWebsiteSchudle]
+  getWebsiteSchudleById(id: String): IWebsiteSchudle
+  #
+  adminWebsiteContent(
+    page: Number!
+    perPage: Number!
+    search: String
+  ): adminIWebsiteContent
+  getWebsiteContent: [IWebsiteContent]
+  getWebsiteContentById(id: String): IWebsiteContent
+  #
+  getWebsiteCourseModel: [IWebsiteCourse]
+  getWebsiteCourseModelById(id: String): IWebsiteCourse
+  #
+  getEnquire: [IEnquire]
+  getEnquireById(id: String): IEnquire
+  adminEnquire(page: Number!, perPage: Number!, search: String): adminIEnquire
+  #
+  getNewWebsiteContent: [INewWebsiteContent]
+  getNewWebsiteContentById(id: String): INewWebsiteContent
+  #
+  getWebsiteCourseAmountModel: [IWebsiteCourseAmount]
+  getWebsiteCourseAmountModelById(id: String): IWebsiteCourseAmount
+  #
+  getWebsitePointsModel: [IWebsitePoints]
+  getWebsitePointsModelById(id: String): IWebsitePoints
+  #
+  getWebsiteCenterModel: [IWebsiteCenter]
+  getWebsiteCenterModelById(id: String): IWebsiteCenter
+  #
+  websiteScheduleResolver: [websiteScheduleResolverType]
+  getLeads(search: String, status: LeadStatus, classType: String): [ILead]
+  getLeadsById(id: String): ILead
+  getAllPaymentLogs(id: String, studentId: String, parentId: String): [IPayment]
+  getCounts: GraphCounts
+  getGraphCounts(year: Number): [AttendanceByMonth]
+  getRevanueCounts(centerId: String): [RevenueByMonth]
+  #whatsapp
+  getWhatsappMessages(
+    offset: Int
+    limit: Int
+    studentId: String
+  ): WhatsappMessagesType
+  #FeeConfig
+  getActiveFee: FeeConfig
+}
+# addDownloadLog
+type RevenueByMonth {
+  month: String
+  currentYearRevenue: Float
+  previousYearRevenue: Float
+}
+type AttendanceByMonth {
+  month: String
+  total: Float
+  count: Float
+  percentage: Float
+  sessions: Float
+}
+type GraphCounts {
+  coachCounts: Float
+  studentCounts: Float
+  parentCounts: Float
+  staffCounts: Float
+  downloadsCount: Float
+}
+
+type IPayment {
+  _id: ID
+  month: String
+  payMethod: String
+  payId: String
+  status: String
+  studentId: Student
+  parentId: String
+  classId: Class
+  date: String
+  createdAt: Date
+  amount: String
+}
+
+type ILeadHistory {
+  _id: ID
+  oldStatus: String
+  newStatus: String
+  createdAt: Date
+}
+type ILeadAttachments {
+  _id: ID
+  attachment: String
+  staff: [User]
+  createdAt: Date
+}
+type ILeadFollowCmmments {
+  _id: ID
+  comment: String
+  commentAttachment: String
+  staff: User
+  createdAt: Date
+}
+type ILead {
+  _id: ID
+  leadStatus: String
+  classType: String
+  leadDescription: String
+  dueDate: Date
+  staff: [User]
+  parent: Parent
+  student: Student
+  enquire: IEnquire
+  leadAttachments: [ILeadAttachments]
+  leadHistory: [ILeadHistory]
+  leadFollowCmmments: [ILeadFollowCmmments]
+}
+
+type IFormOptions {
+  _id: ID
+  option: String
+}
+type IFormQuestions {
+  _id: ID
+  question: String
+  type: String
+  order: Number
+  options: [IFormOptions]
+}
+type adminIFormQuestions {
+  data: [IFormQuestions]
+  total: Int!
+}
+type IWebsiteSchudle {
+  _id: ID
+  classLevel: String
+  fromDate: Date
+  toDate: Date
+  fromTime: Date
+  toTime: Date
+  classCode: String
+  className: String
+  year: String
+  mode: String
+  description: String
+  location: String
+}
+type adminIWebsiteSchudle {
+  data: [IWebsiteSchudle]
+  total: Int!
+}
+type IWebsiteCourse {
+  _id: ID
+  classLevel: String
+  classCode: String
+  classType: String
+  title: String
+  price: Number
+  fromTime: Date
+  toTime: Date
+  fromDate: Date
+  toDate: Date
+  description: String
+  location: String
+  mode: String
+}
+
+type websiteScheduleResolverType {
+  className: String
+  data: [IWebsiteSchudle]
+}
+type adminIWebsiteCourse {
+  data: [IWebsiteCourse]
+  total: Int!
+}
+
+type IWebsiteContent {
+  _id: ID
+  contentType: String
+  contentValue: String
+}
+type adminIWebsiteContent {
+  data: [IWebsiteContent]
+  total: Int!
+}
+type IQuestionOptions {
+  _id: ID
+  question: String
+  answer: String
+}
+type IEnquire {
+  _id: ID
+  classLevel: String
+  courseId: String
+  classType: String
+  classCode: String
+  session: String
+  emailAddress: String
+  phoneNumber: Number
+  firstName: String
+  lastName: String
+  childFirstName: String
+  childLastName: String
+  state: String
+  country: String
+  address: String
+  zipCode: String
+  source: String
+  city: String
+  options: [IQuestionOptions]
+}
+type adminIEnquire {
+  data: [IEnquire]
+  total: Int!
+}
+
+#
+type INewWebsiteContent {
+  _id: ID
+  title: String
+  description: String
+  year: Number
+  image: String
+}
+type IWebsiteCourseAmount {
+  _id: ID
+  title: String
+  description: String
+}
+type IWebsitePoints {
+  _id: ID
+  title: String
+  image: String
+  options: [IFormOptions]
+}
+type IWebsiteCenter {
+  _id: ID
+  centerName: String
+  centerAddress: String
+  centerCode: String
+}
+
+type StaffListType {
+  data: [Staff!]!
+  totalEntries: Int!
+}
+
+type Subscription {
+  commentsSub(questionId: ID!): CommentDetails
+}
+input IQuestionOptionsFields {
+  question: String
+  answer: String
+}
+type PaymentStatus {
+  paymentAmt: String
+  sessionsCount: [String]
+  month: String
+  dueDate: String
+  status: String
+  allowedToUseApp: Boolean
+  message: String
+}
+type PaymentResult {
+  success: Boolean
+  message: String
+  month: String
+  dueDate: String
+  sessionsCount: Number
+  paymentAmt: Number
+  payId: String
+  clientSecret: String
+  qrCodeImageUrl: String
+  qrCode: String
+}
+type PaymentStatusResult {
+  status: String
+  message: String
+  id: String
+}
+
+type IWhatsappGetMessages {
+  id: String
+  type: String
+  ack: String
+  isAdminMessage: Boolean
+  date: String
+  timestamp: Number
+  body: String
+}
+type WhatsappMessagesType {
+  data: [IWhatsappGetMessages]
+}
+
+type Mutation {
+  #
+  addDownloadLog(
+    downloadLink: String
+    fileType: String
+    fileSource: String
+  ): Boolean
+  paymentStatusById(paymentId: String): PaymentStatusResult
+  updateLeadDueDate(id: String, newDate: Date): ILead
+  payByQr(studentId: String): PaymentResult
+  payByCard(studentId: String): PaymentResult
+  checkPaymentStatus(studentId: String): PaymentStatus
+  #
+  deleteRole(roleId: String): Boolean
+  resetPasswordWithId(id: String, password: String): Boolean
+  updateStudentClasses(studentId: String, type: String, leadId: String): ILead
+  updateStudentRegularClass(
+    studentId: String
+    type: String
+    leadId: String
+  ): ILead
+  deleteLeadFollowComment(leadId: String, commentId: String): ILead
+  updateLeadFollowComment(
+    leadId: String
+    commentId: String
+    comment: String
+    commentAttachment: String
+  ): ILead
+  updateLeadStatus(id: String, status: LeadStatus): ILead
+  updateLeadDescription(id: String, description: String): ILead
+  deleteLead(id: String): Boolean
+  deleteAllLead: Boolean
+  assignStaffToLead(leadId: String, staffId: String): ILead
+  removeStaffFromLead(leadId: String, staffId: String): ILead
+  addLeadAttachments(leadId: String, attachment: String, staffId: String): ILead
+  editLeadAttachment(
+    leadId: String
+    attachmentId: String
+    attachment: String
+    staffId: String
+  ): ILead
+  deleteLeadAttachment(leadId: String, attachmentId: String): ILead
+  addLeadFollowComments(
+    leadId: String
+    comment: String
+    commentAttachment: String
+    staffId: String
+  ): ILead
+  createNewWebsiteContent(
+    title: String
+    description: String
+    year: Number
+    image: String
+  ): INewWebsiteContent
+  createWebsiteCourseAmount(
+    title: String
+    description: String
+  ): IWebsiteCourseAmount
+  createWebsitePoints(
+    title: String
+    image: String
+    options: [String]
+  ): IWebsitePoints
+  createWebsiteCenter(centerName: String, centerAddress: String, centerCode: String): IWebsiteCenter
+  updateWebsiteCenter(
+    id: String
+    centerName: String
+    centerAddress: String
+  ): IWebsiteCenter
+  updateWebsiteContent(
+    id: String
+    title: String
+    description: String
+    year: Number
+    image: String
+  ): INewWebsiteContent
+  updateWebsiteCourseAmount(
+    id: String
+    title: String
+    description: String
+  ): IWebsiteCourseAmount
+  updateWebsitePoints(
+    id: String
+    title: String
+    image: String
+    options: [String]
+  ): IWebsitePoints
+  #
+  createEnquire(
+    classLevel: String
+    courseId: String
+    session: String
+    classCode: String
+    classType: String
+    emailAddress: String
+    phoneNumber: Number
+    firstName: String
+    lastName: String
+    childFirstName: String
+    childLastName: String
+    state: String
+    country: String
+    address: String
+    zipCode: String
+    city: String
+    source: String
+    options: [IQuestionOptionsFields]
+  ): IEnquire
+  createFormQuestion(
+    question: String
+    type: String
+    order: Number
+    options: [String]
+  ): IFormQuestions
+  updateFormQuestion(
+    question: String
+    type: String
+    id: String
+    order: Number
+    options: [String]
+  ): IFormQuestions
+  createWebsiteSchudle(
+    classLevel: String
+    fromDate: Date
+    toDate: Date
+    classCode: String
+    className: String
+    fromTime: Date
+    toTime: Date
+    year: String
+    mode: String
+    location: String
+    description: String
+  ): IWebsiteSchudle
+  updateWebsiteSchudle(
+    id: String
+    classLevel: String
+    fromDate: Date
+    toDate: Date
+    classCode: String
+    className: String
+    fromTime: Date
+    toTime: Date
+    year: String
+    mode: String
+    location: String
+    description: String
+  ): IWebsiteSchudle
+  createWebsiteContent(
+    contentType: String
+    contentValue: String
+  ): IWebsiteContent
+  createWebsiteCourse(
+    classLevel: String
+    classCode: String
+    classType: String
+    title: String
+    price: Number
+    fromDate: Date
+    toDate: Date
+    fromTime: Date
+    toTime: Date
+    mode: String
+    location: String
+    description: String
+  ): IWebsiteCourse
+  updateWebsiteCourse(
+    classLevel: String
+    id: String
+    classCode: String
+    classType: String
+    title: String
+    price: Number
+    fromDate: Date
+    toDate: Date
+    fromTime: Date
+    toTime: Date
+    mode: String
+    location: String
+    description: String
+  ): IWebsiteCourse
+  deleteFormQuestion(_id: String!): Boolean
+  deleteWebsiteSchudle(_id: String!): Boolean
+  deleteWebsiteContent(_id: String!): Boolean
+  deleteWebsiteCourse(_id: String!): Boolean
+  deleteWebsitePointsModel(_id: String!): Boolean
+  deleteWebsiteContentModel(_id: String!): Boolean
+  deleteWebsiteCourseAmountModel(_id: String!): Boolean
+  deleteWebsiteCenterModel(_id: String!): Boolean
+
+  # entity use-cases
+  addRolesWithPermissions(roleName: String!, permissions: [String]): Boolean
+
+  resetParentPassword(id: String!, newPassword: String): Boolean
+
+  changeStaffCenter(
+    currentCenterId: String
+    newCenterId: String
+    staffIds: [String]
+  ): Boolean
+
+  changeClassCenter(
+    classIds: [String]
+    currentCenterId: String
+    newCenterId: String
+  ): Boolean
+
+  editRolePermissions(
+    roleId: String!
+    roleName: String!
+    permissions: [String]
+  ): Boolean
+  addStaff(
+    name: String
+    email: String
+    # password: String
+    phoneNumber: String
+    address: String
+    idProof: String
+    staffCenter: [String]
+    staffRole: [String]
+  ): Boolean
+  updateUser(
+    _id: String
+    name: String
+    email: String
+    # password: String
+    phoneNumber: String
+    address: String
+    idProof: String
+    staffCenter: [String]
+    staffRole: [String]
+  ): Boolean
+  coachRemainder(coach_id: String!, message: String!): Boolean
+  deleteMedia(mediaId: String!): Boolean
+  CreateMultipleSession(
+    sessionType: String!
+    totalSeats: Int!
+    permanentCoach: ID!
+    temporaryCoach: ID!
+    Date: String!
+    fromTime: String!
+    toTime: String!
+    status: String
+    classId: ID
+    repeatEvery: Int
+    repeatCount: Int
+    repeatInterval: String
+  ): Boolean
+  CreateTrailSession(
+    totalSeats: Int!
+    classId: ID
+    sessionName: String
+  ): Boolean
+  # forgot pass
+
+  forgotPassByMail(email: String!): Boolean
+  # Notifications
+  updateNotifications(
+    statusType: String!
+    studentId: String
+    coachId: String
+    notificationType: String!
+  ): TrackNotification
+
+  addStudents(classId: ID!, studentIds: [ID!]): Class!
+  # Class Request
+  createClassRequest(
+    requestType: classRequestTypes!
+    classId: String!
+    studentId: String!
+    session: [String]!
+    preseason: String
+  ): ClassRequest
+  deleteClassRequest(_id: String!): Boolean
+  clearPaymentsHistory(studentId: String!): Boolean
+
+  # Question
+  createQuestion(
+    question_text: String
+    student_id: String
+    class_id: String
+  ): Question
+
+  #comment
+  addComment(
+    commentText: String!
+    questionId: ID!
+    coachId: ID
+    studentId: ID
+    userType: String!
+  ): Comments
+
+  #FeeConfig
+  createFeeConfig(
+    planTax: Int
+    setupFee: Int
+    setupTax: Int
+    discount: Int
+  ): FeeConfig
+
+  # Class
+  createNotification(
+    # classCode: String
+    selectNotificationType: NotificationTypes!
+    selectTheUser: userTypes!
+    selectClassLevel: ClassLevel
+    selectClassType: ClassType
+    selectClassCode: String
+    addDescription: String
+    insertLink: String
+    sesions: [String]
+  ): Nottification
+
+  # editClass(_id: String!, centerName: String!, centerAddress: String!): Center
+  editNotification(
+    _id: String!
+    selectNotificationType: NotificationTypes!
+    selectTheUser: AnnouncementUserType!
+    selectClassLevel: ClassLevel!
+    selectClassType: ClassType!
+    selectClassCode: String!
+    addDescription: String!
+    insertLink: String!
+    sesions: [String!]!
+  ): Nottification
+
+  deleteNotification(_id: String!): Boolean
+
+  # Class
+  createClass(
+    # classCode: String
+    # classType: String!
+    # classLevel: String!
+    # mode: String!
+    mode: ClassMode
+    classType: ClassType!
+    classLevel: ClassLevel!
+    centerId: String
+    fromDate: Date!
+    toDate: Date!
+  ): Class
+
+  # editClass(_id: String!, centerName: String!, centerAddress: String!): Center
+  editClass(
+    _id: String!
+    mode: ClassMode
+    classType: ClassType!
+    classLevel: ClassLevel!
+    centerId: String
+    fromDate: Date!
+    toDate: Date!
+  ): Class
+
+  deleteClass(_id: String!): Boolean
+
+  # Sessions
+  createSession(
+    sessionType: SessionTypes
+    sessionName: String
+    totalSeats: Int
+    permanentCoach: String
+    temporaryCoach: String
+    Date: Date
+    fromTime: String
+    toTime: String
+    classId: String
+  ): Session
+
+  editSession(
+    _id: String!
+    sessionType: SessionTypes
+    sessionName: String
+    totalSeats: Int
+    permanentCoach: String
+    temporaryCoach: String
+    Date: Date
+    fromTime: String
+    toTime: String
+    classId: String
+    summary: String
+    progressReport: String
+  ): Class
+
+  deleteSession(_id: String!): Boolean
+
+  # Center
+  createCenter(centerName: String!, centerAddress: String!,centerCode: String!): Center
+
+  editCenter(_id: String!, centerName: String!, centerAddress: String!, centerCode: String!): Center
+
+  deleteCenter(_id: String!): Boolean
+  deleteStaff(_id: String!): Boolean
+
+  # Coach
+  createCoach(
+    coachName: String
+    emailAddress: String
+    phoneNumber: String
+    coachType: [CoachType!]!
+    askQuestionLevel: [AskQuestionLevelType!]!
+    address: String
+    idProof: String
+    profileImg: String
+  ): Coach
+
+  editCoach(
+    _id: String!
+    coachName: String
+    emailAddress: String
+    phoneNumber: String
+    coachType: [CoachType!]
+    askQuestionLevel: [AskQuestionLevelType!]
+    address: String
+    idProof: String
+    profileImg: String
+  ): Coach
+
+  deleteCoach(_id: String!): Boolean
+
+  markAttendees(sessionId: String!, studentId: String!): String
+
+  # User
+  createUser(name: String!, email: String!, password: String!): User
+  # parents
+  createParent(
+    name: String!
+    email: String!
+    password: String!
+    phone: String!
+    address: String!
+    image: String
+    children: [StudentInput]!
+  ): Parent
+
+  editParent(
+    _id: String!
+    name: String
+    email: String
+    address: String
+    phone: String
+    image: String
+    children: [String]
+  ): Parent
+
+  deleteParent(_id: String!): Parent
+
+  # students
+  createStudent(
+    name: String!
+    parentId: String!
+    studentType: StudentTypes!
+  ): Student
+
+  editStudent(
+    _id: String!
+    name: String
+    studentType: String
+    parentId: String
+  ): Student
+
+  editStudentWithImage(_id: String!, name: String, image: String): Student
+
+  deleteStudent(_id: String!): Student
+
+  addCardDetails(
+    studentId: String!
+    nameOnCard: String!
+    cardNumber: String!
+    expireDate: Date!
+    month: String
+    year: String
+    cvv: Int!
+  ): CreditCardInfo
+
+  deleteCardDetails(studentId: String!, _id: String!): CreditCardInfo
+
+  addBankDetails(
+    studentId: String!
+    bankName: String!
+    accountNumber: String!
+    accountHolderName: String!
+  ): BankAccountInfo
+
+  deleteBankDetails(studentId: String!, _id: String!): BankAccountInfo
+
+  # project services
+  # auth
+  parentLogin(email: String!, password: String!): LoginResponse
+  coachLogin(email: String!, password: String!): LoginResponse
+  userLogin(email: String!, password: String!): LoginResponse
+
+  resetPassword(currentPassword: String!, password: String!): String
+  resetCoachPassword(currentPassword: String!, password: String!): String
+  clearUserAnnouncements(studentId: String!): Boolean
+
+  # media
+  createMedia(
+    classId: String!
+    forMonth: Date!
+    mediaAccess: mediaAccessTypes!
+    mediaUrl: String!
+    mediaType: String!
+    docType: String!
+  ): Media
+
+  # SessionFeedback
+  createSessionFeedBack(
+    sessionId: String!
+    studentId: String!
+    feedback: String!
+  ): SessionFeedback
+
+  editSessionFeedBack(
+    _id: String!
+    sessionId: String
+    studentId: String
+    feedback: String
+  ): SessionFeedback
+
+  # assignment
+  createAssignment(
+    classId: String!
+    questionUrl: String!
+    docType: String!
+    sessionId: String
+  ): Assignment
+
+  deleteAssignment(_id: String!): Assignment
+
+  addStudentSubmission(
+    _id: String!
+    studentId: String!
+    answerUrl: String!
+  ): Boolean
+
+  # admin
+  updateStatusClassRequest(
+    _id: String!
+    status: String!
+    reason: String
+  ): Boolean
+}

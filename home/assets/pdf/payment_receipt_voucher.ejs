@@ -1,0 +1,249 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+    <table width='100%' border='0' bordercolor='#B6B6B6' align='center' cellspacing='0' cellpadding='0'
+        style=' border-collapse:collapse; background-color:#FFF;font-family: Arial,Helvetica Neue,Helvetica,sans-serif; margin:0;'>
+        <tbody>
+            <tr>
+                <td style='padding:10px 20px;'>
+                    <table border='0' width='100%'>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table border='0' bordercolor='#B6B6B6' align='center' cellspacing='0'
+                                        cellpadding='0' style='margin:0;width: 100%;'>
+                                        <tbody>
+                                            <tr>
+                                                <td
+                                                    style="width:80%;padding:10px 5px;font-weight: bold;font-size:20px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;">
+                                                    Receipt</td>
+                                                <td><img src="<%=logoImg%>"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <table border='0' bordercolor='#B6B6B6' align='center' cellspacing='0' cellpadding='0'
+                                    style='margin:0;width:100%'>
+                                    <tbody>
+                                        <!-- <tr>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                Invoice number</td>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                77236B66-0001</td>
+                                        </tr> -->
+                                        <tr>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                Receipt number</td>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                <%=receiptNo%></td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                Date paid</td>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                <%=paymentDate%></td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                Payment method </td>
+                                            <td
+                                                style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                <%=cardType%> -  <%=last4%></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </tr>
+                            <tr>
+                                <td style="padding:20px 20px">
+                                    <table border='0' bordercolor='#B6B6B6' align='center' cellspacing='0'
+                                        cellpadding='0' style='margin:0;width:100%'>
+                                        <thead>
+                                            <tr>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-weight: bold;'>
+                                                    Powdur</td>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-weight: bold;'>
+                                                    Bill to</td>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    United States</td>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=name%> </td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    +1 415-555-5555</td>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=email%></td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    contact@stripe.com</td>
+                                                <td
+                                                    style='padding:5px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=address%></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td
+                                    style='padding:20px 20px;font-size:20px;font-weight: bold;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                    $<%=payableAmount%> paid on <%=paymentDate%></td>
+                            </tr>
+                            <!-- <tr>
+                                <td
+                                    style='padding:20px;font-size:14px; font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                    This is a demo hosted invoice. Click the pay button to test pay this invoice.</td>
+                            </tr> -->
+                            <tr>
+                                <td style='padding:10px 20px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                    <table width="100%" border='0' bordercolor='#B6B6B6' align='center' cellspacing='0'
+                                        cellpadding='0' style='margin:0;width:100%'>
+                                        <thead>
+                                            <tr>
+                                                <td
+                                                    style='border-bottom: 1px solid #000000; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong>Description</strong></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #000000; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong>Qty</strong></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #000000; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong>Unit Price</strong></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #000000; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong>Tax</strong></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #000000; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong>Amount</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    Enterprise Plan</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=planQty%></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%=planAmount%></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=planTax%>%</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc; padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%=planTotalAmount%></td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style='padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    Set up fee</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=setupQty%></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%=setupFee%></td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=setupTax%>%</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%=setupTotalAmount%></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="6">&nbsp;</td>
+                                                <td colspan="3"
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    Subtotal</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%=subTotal%></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <%=discountText%> percent off Մ<%=discount%>% off)</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%=discountTotalAmount%></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    Total excluding tax</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%= subTotal - discountTotalAmount%></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    Tax (<%= planTax%>% on $<%= subTotal - discountTotalAmount%>)</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%= taxTotalAmount%></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    Total</td>
+                                                <td
+                                                    style='border-bottom: 1px solid #cccccc;padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    $<%= payableAmount%></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"
+                                                    style='padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong> Amount Paid</strong></td>
+                                                <td
+                                                    style='padding:10px 5px;font-family: Arial,Helvetica Neue,Helvetica,sans-serif;'>
+                                                    <strong> $<%= payableAmount%></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</body>
+
+</html>
